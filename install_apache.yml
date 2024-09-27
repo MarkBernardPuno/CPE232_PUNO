@@ -1,41 +1,12 @@
-- hosts: all
+---
+- hosts: centOS
   become: true
   tasks:
 
-  - name: update repository index
-    apt:
+  - name: install apache and php
+    package:
+      name:
+        - "{{ apache_package }}"
+        - "{{ php_package }}"
+      state: latest
       update_cache: yes
-    when: ansible_distribution == "Ubuntu"
-
-  - name: install apache2 package
-    apt:
-     name: apache2
-    when: ansible_distribution == "Ubuntu"
-
-  - name: add PHP support for apache
-    apt:
-      name: libapache2-mod-php
-    when: ansible_distribution == "Ubuntu"
-
-  - name: install python3-dnf
-    dnf:
-      name: python3-dnf
-      state: latest
-    when: ansible_distribution == "CentOS"
-
-  - name: update repository index
-    dnf:
-      update_cache: yes
-    when: ansible_distribution == "CentOS"
-
-  - name: install apache2 package
-    dnf:
-      name: httpd
-      state: latest
-    when: ansible_distribution == "CentOS"
-
-  - name: add PHP support for apache
-    dnf:
-      name: php
-      state: latest
-    when: ansible_distribution == "CentOS"
